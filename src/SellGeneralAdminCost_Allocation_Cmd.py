@@ -2769,7 +2769,7 @@ def build_step0007_rows_for_summary_0005(pszStep0006Path: str) -> List[List[str]
         -1,
     )
     if iAllocationIndex >= 0:
-        objLabelRow[iAllocationIndex] = "カンパニー別合計"
+        objLabelRow[iAllocationIndex] = "グループ別合計"
     return [objLabelRow] + [list(objRow) for objRow in objRows]
 
 
