@@ -2605,7 +2605,16 @@ def build_step0004_rows_for_summary(objRows: List[List[str]]) -> List[List[str]]
             objNewRow[iColumnIndex] = format_number(objTotalsByName[pszName][iColumnIndex])
         objOutputRows.append(objNewRow)
     if objTotalRow is not None:
-        objOutputRows.append(list(objTotalRow))
+        objTotalOutputRow: List[str] = list(objTotalRow)
+        iAllocationIndex: int = find_column_index(objHeaderRow, "配賦販管費")
+        if iAllocationIndex >= 0:
+            if len(objTotalOutputRow) <= iAllocationIndex:
+                objTotalOutputRow.extend([""] * (iAllocationIndex + 1 - len(objTotalOutputRow)))
+            fAllocationTotal: float = 0.0
+            for pszName in objTargetNames:
+                fAllocationTotal += objTotalsByName[pszName][iAllocationIndex]
+            objTotalOutputRow[iAllocationIndex] = format_number(fAllocationTotal)
+        objOutputRows.append(objTotalOutputRow)
     return objOutputRows
 
 
@@ -2653,7 +2662,16 @@ def build_step0004_rows_for_group_summary(objRows: List[List[str]]) -> List[List
             objNewRow[iColumnIndex] = format_number(objTotalsByName[pszName][iColumnIndex])
         objOutputRows.append(objNewRow)
     if objTotalRow is not None:
-        objOutputRows.append(list(objTotalRow))
+        objTotalOutputRow: List[str] = list(objTotalRow)
+        iAllocationIndex: int = find_column_index(objHeaderRow, "配賦販管費")
+        if iAllocationIndex >= 0:
+            if len(objTotalOutputRow) <= iAllocationIndex:
+                objTotalOutputRow.extend([""] * (iAllocationIndex + 1 - len(objTotalOutputRow)))
+            fAllocationTotal: float = 0.0
+            for pszName in objTargetNames:
+                fAllocationTotal += objTotalsByName[pszName][iAllocationIndex]
+            objTotalOutputRow[iAllocationIndex] = format_number(fAllocationTotal)
+        objOutputRows.append(objTotalOutputRow)
     return objOutputRows
 
 
