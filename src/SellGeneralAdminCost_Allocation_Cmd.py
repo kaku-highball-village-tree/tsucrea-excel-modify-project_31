@@ -2769,7 +2769,7 @@ def build_step0007_rows_for_summary_0005(pszStep0006Path: str) -> List[List[str]
         -1,
     )
     if iAllocationIndex >= 0:
-        objLabelRow[iAllocationIndex] = "カンパニー別合計"
+        objLabelRow[iAllocationIndex] = "グループ別合計"
     return [objLabelRow] + [list(objRow) for objRow in objRows]
 
 
@@ -3889,7 +3889,7 @@ def create_pj_summary(
         objCumulativeStep0003Rows0005
     )
     write_tsv_rows(pszCumulativeStep0004Path0005, objCumulativeStep0004Rows0005)
-    pszStep0006Path0005: str = os.path.join(
+    pszStep0005Path0005: str = os.path.join(
         pszDirectory,
         (
             "0005_PJサマリ_step0005_単・累_損益計算書_"
@@ -3897,7 +3897,15 @@ def create_pj_summary(
             f"{objEnd[0]}年{pszSummaryEndMonth}月.tsv"
         ),
     )
-    pszStep0007Path0005: str = os.path.join(
+    objSingleStep0005Rows0005 = add_profit_ratio_columns(read_tsv_rows(pszSingleStep0004Path0005))
+    objCumulativeStep0005Rows0005 = add_profit_ratio_columns(read_tsv_rows(pszCumulativeStep0004Path0005))
+    objStep0005Rows0005 = build_step0005_rows_for_summary(
+        objSingleStep0005Rows0005,
+        objCumulativeStep0005Rows0005,
+    )
+    write_tsv_rows(pszStep0005Path0005, objStep0005Rows0005)
+
+    pszStep0006Path0005: str = os.path.join(
         pszDirectory,
         (
             "0005_PJサマリ_step0006_単・累_損益計算書_"
